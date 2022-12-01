@@ -27,7 +27,7 @@ const processCalories = (line?: string) => {
     perElfCalories.push(parseInt(line))
 }
 
-const getTopThreeSum = () => {
+const getHighestValues = () => {
     // Sort array in descending order
     let sortedTotal = totalCalories.sort((a,b) => b - a)
 
@@ -40,7 +40,10 @@ const getTopThreeSum = () => {
         totalSum = totalSum + value
     }
 
-    return totalSum
+    return {
+        first: sortedTotal[0],
+        topThree: totalSum
+    }
 }
 
 const readFile = async () => {
@@ -57,7 +60,9 @@ const readFile = async () => {
 
         // Log the highest value on close of file
         readlineInterface.on('close', () => {
-            console.log(`Top three elves carry ${getTopThreeSum()} calories in total.`);
+            const { first, topThree } = getHighestValues()
+            console.log('The elf that carries the most has: ' + first + ' calories')
+            console.log('Top three elves have sum of calories: ' + topThree)
         })
     } catch (err) {
         console.error(err)
